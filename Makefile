@@ -69,7 +69,7 @@ db-studio:
 
 # CI/CD commands
 ci-install:
-	npm ci
+	npm install
 
 ci-build:
 	npm run build
