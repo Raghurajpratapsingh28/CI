@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    networks:
+      - planetx
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: node_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    networks:
+      - planetx
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    tty: true
+
+volumes:
+  postgres_data:
+
+networks:
+  planetx:
+    name: planetx
